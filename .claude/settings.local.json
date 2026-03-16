@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:)",
+      "Bash(PHP_PATH=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP\"\n\"$PHP_PATH/php.exe\" --version 2>&1)",
+      "Bash(PHP_PATH=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP\"\n\"$PHP_PATH/php.exe\" \"$PHP_PATH/composer.bat\" --version 2>&1 || \"$PHP_PATH/php.exe\" -r \"echo 'PHP works';\" 2>&1)",
+      "Bash(PHP_EXE=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP/php.exe\"\nCOMPOSER_PHAR=\"/d/work/OSPanelV6/data/PHP-8.3/default/composer/composer.phar\"\n\"$PHP_EXE\" \"$COMPOSER_PHAR\" --version 2>&1)",
+      "Bash(PHP_EXE=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP/php.exe\"\nCOMPOSER_PHAR=\"/d/work/OSPanelV6/data/PHP-8.3/default/composer/composer.phar\"\ncd /d/work/OSPanelV6/home/numon\n\"$PHP_EXE\" \"$COMPOSER_PHAR\" create-project laravel/laravel . --prefer-dist 2>&1)",
+      "Bash(PHP_EXE=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP/php.exe\"\nCOMPOSER_PHAR=\"/d/work/OSPanelV6/data/PHP-8.3/default/composer/composer.phar\"\ncd /d/work/OSPanelV6/home\n\"$PHP_EXE\" \"$COMPOSER_PHAR\" create-project laravel/laravel nurcrm_tmp --prefer-dist 2>&1)",
+      "Bash(cp:*)",
+      "Bash(PHP_EXE=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP/php.exe\"\nCOMPOSER_PHAR=\"/d/work/OSPanelV6/data/PHP-8.3/default/composer/composer.phar\"\ncd /d/work/OSPanelV6/home/numon\n\"$PHP_EXE\" \"$COMPOSER_PHAR\" require filament/filament:\"^3.2\" -W 2>&1 | tail -30)",
+      "Bash(PHP_EXE=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP/php.exe\"\nCOMPOSER_PHAR=\"/d/work/OSPanelV6/data/PHP-8.3/default/composer/composer.phar\"\ncd /d/work/OSPanelV6/home/numon\n\"$PHP_EXE\" \"$COMPOSER_PHAR\" require league/csv 2>&1 | tail -10)",
+      "Bash(PHP_EXE=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP/php.exe\"\ncd /d/work/OSPanelV6/home/numon\n\"$PHP_EXE\" artisan filament:install --panels --no-interaction 2>&1)",
+      "Bash(PHP_EXE=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP/php.exe\"\ncd /d/work/OSPanelV6/home/numon\n\"$PHP_EXE\" artisan vendor:publish --provider=\"Spatie\\\\Permission\\\\PermissionServiceProvider\" 2>&1)",
+      "Bash(PHP_EXE=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP/php.exe\"\nCOMPOSER_PHAR=\"/d/work/OSPanelV6/data/PHP-8.3/default/composer/composer.phar\"\ncd /d/work/OSPanelV6/home/numon\n\"$PHP_EXE\" \"$COMPOSER_PHAR\" require sergiox44/nutgram 2>&1 | tail -10)",
+      "Bash(PHP_EXE=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP/php.exe\"\nCOMPOSER_PHAR=\"/d/work/OSPanelV6/data/PHP-8.3/default/composer/composer.phar\"\ncd /d/work/OSPanelV6/home/numon\n\"$PHP_EXE\" \"$COMPOSER_PHAR\" require nutgram/nutgram 2>&1 | tail -10)",
+      "Bash(PHP_BIN=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP/php.exe\" && \"$PHP_BIN\" -l \"D:/work/OSPanelV6/home/numon/app/Http/Controllers/VocabExamController.php\" && \"$PHP_BIN\" -l \"D:/work/OSPanelV6/home/numon/app/Telegram/Handlers/TaskSubmissionHandler.php\")",
+      "Bash(PHP_BIN=\"/d/work/OSPanelV6/modules/PHP-8.3/PHP/php.exe\" && cd \"D:/work/OSPanelV6/home/numon\" && \"$PHP_BIN\" artisan route:list --path=vocab-exam 2>&1)"
+    ]
+  }
+}

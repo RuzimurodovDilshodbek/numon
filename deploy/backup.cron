@@ -1,0 +1,5 @@
+# NurCRM PostgreSQL backup — har kuni soat 03:00 da
+0 3 * * * postgres pg_dump nurcrm | gzip > /var/backups/nurcrm_$(date +\%Y\%m\%d).sql.gz
+
+# 30 kundan eski backuplarni o'chirish
+0 4 * * * find /var/backups -name "nurcrm_*.sql.gz" -mtime +30 -delete
