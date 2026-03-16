@@ -1,0 +1,49 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 161.97.88.95
+          username: root
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          script: |
+            set -e
+            cd /var/www/numon
+
+            # Maintenance mode
+            php8.3 artisan down --retry=15
+
+            # Git pull
+            git pull origin main
+
+            # Composer
+            php8.3 /usr/local/bin/composer install --no-dev --optimize-autoloader --no-interaction
+
+            # Migrate
+            php8.3 artisan migrate --force
+
+            # Cache
+            php8.3 artisan config:cache
+            php8.3 artisan route:cache
+            php8.3 artisan view:cache
+            php8.3 artisan filament:optimize
+            php8.3 artisan icons:cache
+
+            # Queue restart
+            php8.3 artisan queue:restart
+
+            # Supervisor restart
+            supervisorctl restart numon:*
+
+            # Maintenance off
+            php8.3 artisan up
+
+            echo "Deploy muvaffaqiyatli tugadi!"
