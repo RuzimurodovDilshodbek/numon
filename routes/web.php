@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VocabExamController;
 use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\RunningMode\Webhook;
 use App\Telegram\TelegramBotKernel;
 
 Route::get('/', function () {
@@ -10,6 +11,7 @@ Route::get('/', function () {
 });
 
 Route::post('/telegram/webhook', function (Nutgram $bot) {
+    $bot->setRunningMode(Webhook::class);
     app(TelegramBotKernel::class)->register($bot);
     $bot->run();
 })->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
