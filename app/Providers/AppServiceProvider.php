@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use SergiX44\Nutgram\Nutgram;
-use App\Telegram\TelegramBotKernel;
 use App\Models\Task;
 use App\Models\TaskSubmission;
 use App\Observers\TaskObserver;
@@ -24,10 +23,5 @@ class AppServiceProvider extends ServiceProvider
     {
         Task::observe(TaskObserver::class);
         TaskSubmission::observe(TaskSubmissionObserver::class);
-
-        if (!empty(config('nutgram.token')) && config('nutgram.token') !== 'changeme') {
-            $bot = app(Nutgram::class);
-            app(TelegramBotKernel::class)->register($bot);
-        }
     }
 }
