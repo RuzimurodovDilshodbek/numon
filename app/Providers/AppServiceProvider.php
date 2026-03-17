@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\Configuration;
 use App\Telegram\TelegramBotKernel;
 use App\Models\Task;
 use App\Models\TaskSubmission;
@@ -16,11 +15,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(Nutgram::class, function () {
-            $token = config('nutgram.token');
-            if (empty($token)) {
-                return new Nutgram(new Configuration(token: 'placeholder'));
-            }
-            return new Nutgram(new Configuration(token: $token));
+            $token = config('nutgram.token') ?: 'placeholder';
+            return new Nutgram($token);
         });
     }
 
