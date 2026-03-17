@@ -6,7 +6,9 @@ use Illuminate\Support\ServiceProvider;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Configuration;
 use App\Telegram\TelegramBotKernel;
+use App\Models\Task;
 use App\Models\TaskSubmission;
+use App\Observers\TaskObserver;
 use App\Observers\TaskSubmissionObserver;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Task::observe(TaskObserver::class);
         TaskSubmission::observe(TaskSubmissionObserver::class);
 
         if (!empty(config('nutgram.token')) && config('nutgram.token') !== 'changeme') {

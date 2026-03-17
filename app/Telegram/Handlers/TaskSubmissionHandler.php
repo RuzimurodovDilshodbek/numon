@@ -21,7 +21,7 @@ class TaskSubmissionHandler
         // Find pending extra_text task with photo requirement
         $submission = TaskSubmission::where('student_id', $student->id)
             ->where('status', 'pending')
-            ->whereHas('task', fn($q) => $q->where('task_type', 'extra_text'))
+            ->whereHas('task', fn($q) => $q->where('type', 'extra_text'))
             ->with('task')
             ->first();
 
@@ -59,7 +59,7 @@ class TaskSubmissionHandler
 
         $submission = TaskSubmission::where('student_id', $student->id)
             ->where('status', 'pending')
-            ->whereHas('task', fn($q) => $q->where('task_type', 'video_conversation'))
+            ->whereHas('task', fn($q) => $q->where('type', 'video_conversation'))
             ->with('task')
             ->first();
 
@@ -128,7 +128,7 @@ class TaskSubmissionHandler
         $bot->answerCallbackQuery();
         $bot->sendMessage(
             "📝 *Lug'at imtihoni*\n\n" .
-            "📚 {$vocabTask->vocabularyList->name}\n" .
+            "📚 {$vocabTask->vocabularyList->title}\n" .
             "⏱ Vaqt: " . ($vocabTask->time_limit_minutes ?? '—') . " daqiqa\n" .
             "✅ O'tish: {$vocabTask->pass_percent}%\n\n" .
             "Imtihonni boshlash uchun quyidagi havolaga o'ting:",

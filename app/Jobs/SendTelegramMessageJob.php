@@ -28,11 +28,23 @@ class SendTelegramMessageJob implements ShouldQueue
 
     public function handle(Nutgram $bot): void
     {
-        $bot->sendMessage(
-            text: $this->message,
-            chat_id: $this->telegramId,
-            parse_mode: $this->parseMode,
-        );
+        $params = [
+            'text'       => $this->message,
+            'chat_id'    => $this->telegramId,
+            'parse_mode' => $this->parseMode,
+        ];
+
+        if (!empty($this->metadata['vocab_button']) && !empty($this->metadata['task_id'])) {
+            $params['reply_markup'] = \SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup::make()
+                ->addRow(
+                    \SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton::make(
+                        text: "📝 Imtihonni boshlash",
+                        callback_data: "vocab_exam_{$this->metadata['task_id']}"
+                    )
+                );
+        }
+
+        $bot->sendMessage(...$params);
 
         NotificationLog::create([
             'user_id'  => $this->userId,
