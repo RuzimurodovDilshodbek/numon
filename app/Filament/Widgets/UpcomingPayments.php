@@ -9,7 +9,7 @@ use App\Models\Payment;
 
 class UpcomingPayments extends BaseWidget
 {
-    protected static ?string $heading = "To'lov muddati yaqinlashayotganlar (7 kun)";
+    protected static ?string $heading = "Joriy va kelgusi oy to'lovlari";
     protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
@@ -17,8 +17,13 @@ class UpcomingPayments extends BaseWidget
         return $table
             ->query(
                 Payment::query()
-                    ->whereIn('status', ['pending'])
-                    ->whereBetween('period_month', [today(), today()->addDays(7)])
+                    ->whereIn('status', ['pending', 'overdue'])
+                    ->whereBetween('period_month', [
+                        now()->startOfMonth(),
+                        now()->addMonth()->startOfMonth(),
+                    ])
+                    ->orderBy('period_month')
+                    ->orderByRaw("status = 'overdue' desc")
                     ->with(['student', 'group'])
             )
             ->columns([
