@@ -108,7 +108,7 @@ class VocabExamController extends Controller
             'score_percent'      => $scorePercent,
             'is_passed'          => $isPassed,
             'attempt_number'     => VocabularyAttempt::where('vocabulary_task_id', $vocabTask->id)
-                                        ->where('student_id', $data['student_id'])->count(),
+                                        ->where('student_id', $data['student_id'])->count() + 1,
             'metadata'           => [
                 'face_log'   => $validated['face_log'] ?? [],
                 'user_agent' => $request->userAgent(),

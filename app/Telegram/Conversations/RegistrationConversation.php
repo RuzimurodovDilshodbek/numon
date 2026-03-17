@@ -41,6 +41,11 @@ class RegistrationConversation extends Conversation
         }
 
         $reg = BotRegistration::where('telegram_id', (string) $bot->userId())->first();
+        if (!$reg) {
+            $bot->sendMessage("⚠️ Tizim xatosi. Iltimos /start ni qaytadan bosing.");
+            $this->end();
+            return;
+        }
         $reg->update([
             'student_id' => $student->id,
             'step' => 'id_entered',

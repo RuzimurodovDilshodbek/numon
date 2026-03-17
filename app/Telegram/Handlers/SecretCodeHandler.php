@@ -36,8 +36,13 @@ class SecretCodeHandler extends Conversation
             return;
         }
 
-        if ($lesson->secret_code !== $input) {
-            $bot->sendMessage("❌ Noto'g'ri kod. Qaytadan urinib ko'ring:");
+        if (!$lesson->isSecretCodeValid($input)) {
+            $expired = $lesson->secret_code_expires_at && now()->gt($lesson->secret_code_expires_at);
+            $bot->sendMessage($expired
+                ? "⏰ Kod muddati tugagan. Ustoz yangi kod berishi kerak."
+                : "❌ Noto'g'ri kod. Qaytadan urinib ko'ring:"
+            );
+            if ($expired) $this->end();
             return;
         }
 
