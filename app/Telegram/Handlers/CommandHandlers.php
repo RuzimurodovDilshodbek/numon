@@ -55,7 +55,9 @@ class CommandHandlers
         foreach ($lessons as $lesson) {
             $date = Carbon::parse($lesson->lesson_date)->format('d.m.Y');
             $text .= "▪️ {$date}\n";
-            $text .= "   🕐 {$lesson->start_time} — {$lesson->end_time}\n";
+            $start = Carbon::parse($lesson->start_time)->format('H:i');
+            $end   = Carbon::parse($lesson->end_time)->format('H:i');
+            $text .= "   🕐 {$start} — {$end}\n";
             $text .= "   👥 {$lesson->group->name}\n";
             if ($lesson->zoom_link) {
                 $text .= "   🔗 [Zoom]({$lesson->zoom_link})\n";
