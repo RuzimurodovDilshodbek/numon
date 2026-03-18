@@ -32,8 +32,8 @@ class LessonResource extends Resource
                 ->options(['theory' => 'Nazariy', 'practice' => 'Amaliy'])
                 ->required(),
             Forms\Components\DatePicker::make('lesson_date')->label('Sana')->required(),
-            Forms\Components\TimePicker::make('start_time')->label('Boshlanish')->required(),
-            Forms\Components\TimePicker::make('end_time')->label('Tugash')->required(),
+            Forms\Components\TimePicker::make('start_time')->label('Boshlanish')->seconds(false)->required(),
+            Forms\Components\TimePicker::make('end_time')->label('Tugash')->seconds(false)->required(),
             Forms\Components\TextInput::make('zoom_link')->label('Zoom link')->url(),
             Forms\Components\Select::make('status')
                 ->label('Holat')
