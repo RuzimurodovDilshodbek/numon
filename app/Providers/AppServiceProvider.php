@@ -10,6 +10,8 @@ use App\Models\Task;
 use App\Models\TaskSubmission;
 use App\Observers\TaskObserver;
 use App\Observers\TaskSubmissionObserver;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +28,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Task::observe(TaskObserver::class);
         TaskSubmission::observe(TaskSubmissionObserver::class);
+
+        DatePicker::configureUsing(
+            fn (DatePicker $c) => $c->displayFormat('d/m/Y')->native(false)
+        );
+        DateTimePicker::configureUsing(
+            fn (DateTimePicker $c) => $c->displayFormat('d/m/Y H:i')->native(false)
+        );
     }
 }
