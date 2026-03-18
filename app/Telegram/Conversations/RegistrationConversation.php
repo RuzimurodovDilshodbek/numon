@@ -105,23 +105,6 @@ class RegistrationConversation extends Conversation
     public function save_experience(Nutgram $bot): void
     {
         $this->answers['previous_language_experience'] = $bot->message()->text ?? '';
-        $this->next('ask_preferred_time');
-        $this->ask_preferred_time($bot);
-    }
-
-    public function ask_preferred_time(Nutgram $bot): void
-    {
-        $keyboard = ReplyKeyboardMarkup::make(resize_keyboard: true)
-            ->addRow(KeyboardButton::make('🌅 Ertalab (8-12)'), KeyboardButton::make('☀️ Kunduzi (12-17)'))
-            ->addRow(KeyboardButton::make('🌆 Kechqurun (17-21)'), KeyboardButton::make('⭐ Istalgan vaqt'));
-
-        $bot->sendMessage("⏰ Dars uchun qulay vaqt?", reply_markup: $keyboard);
-        $this->next('save_preferred_time');
-    }
-
-    public function save_preferred_time(Nutgram $bot): void
-    {
-        $this->answers['preferred_time'] = $bot->message()->text ?? '';
         $this->next('ask_photo');
         $this->ask_photo($bot);
     }
