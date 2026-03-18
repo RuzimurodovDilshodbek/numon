@@ -128,8 +128,9 @@ class CommandHandlers
         $bot->sendMessage($text, parse_mode: 'Markdown');
     }
 
-    public function handleText(Nutgram $bot, string $text): void
+    public function handleText(Nutgram $bot): void
     {
+        $text = $bot->message()?->text ?? '';
         if (str_starts_with($text, '/')) return;
 
         $student = $this->getStudent($bot);

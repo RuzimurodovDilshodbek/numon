@@ -31,7 +31,7 @@ class TelegramBotKernel
         // Video qabul (video_conversation vazifa)
         $bot->onVideo([TaskSubmissionHandler::class, 'handleVideo']);
 
-        // Matn xabarlar
-        $bot->onText('{text}', [CommandHandlers::class, 'handleText']);
+        // Matn xabarlar (fallback — conversation bo'lmasa ishlaydi)
+        $bot->fallback([CommandHandlers::class, 'handleText']);
     }
 }
