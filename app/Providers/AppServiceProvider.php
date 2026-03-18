@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Cache;
 use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Configuration;
 use App\Models\Task;
 use App\Models\TaskSubmission;
 use App\Observers\TaskObserver;
@@ -15,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(Nutgram::class, function () {
             $token = config('nutgram.token') ?: 'placeholder';
-            return new Nutgram($token);
+            $config = new Configuration(cache: Cache::store('redis'));
+            return new Nutgram($token, $config);
         });
     }
 

@@ -130,6 +130,8 @@ class CommandHandlers
 
     public function handleText(Nutgram $bot, string $text): void
     {
+        if (str_starts_with($text, '/')) return;
+
         $student = $this->getStudent($bot);
         if (!$student) return;
 
