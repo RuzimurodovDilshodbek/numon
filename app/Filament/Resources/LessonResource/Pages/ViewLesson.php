@@ -162,7 +162,7 @@ class ViewLesson extends ViewRecord
         return [LessonStudentsWidget::class];
     }
 
-    protected function getWidgetData(): array
+    public function getWidgetData(): array
     {
         return ['lessonId' => $this->record->id];
     }
