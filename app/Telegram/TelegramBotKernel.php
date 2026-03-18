@@ -24,6 +24,7 @@ class TelegramBotKernel
         // Callback query lar (inline buttons)
         $bot->onCallbackQueryData('secret_code_prompt_{lesson_id}', [SecretCodeHandler::class, 'prompt']);
         $bot->onCallbackQueryData('vocab_exam_{task_id}', [TaskSubmissionHandler::class, 'openVocabExam']);
+        $bot->onCallbackQueryData('task_detail_{task_id}', [CommandHandlers::class, 'taskDetail']);
 
         // Rasm qabul (extra_text vazifa)
         $bot->onPhoto([TaskSubmissionHandler::class, 'handlePhoto']);

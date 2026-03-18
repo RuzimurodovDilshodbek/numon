@@ -8,6 +8,8 @@ use App\Models\Lesson;
 use App\Models\TaskSubmission;
 use App\Models\Payment;
 use Carbon\Carbon;
+use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
+use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 
 class CommandHandlers
 {
@@ -83,16 +85,77 @@ class CommandHandlers
             return;
         }
 
-        $text = "📋 *Topshirilmagan vazifalar:*\n\n";
         foreach ($pendingSubmissions as $submission) {
             $task = $submission->task;
             $deadline = $task->due_date
-                ? "\n   ⏰ Muddat: " . Carbon::parse($task->due_date)->format('d.m.Y H:i')
+                ? "\n⏰ Muddat: " . Carbon::parse($task->due_date)->format('d.m.Y H:i')
                 : '';
-            $text .= "▪️ *{$task->title}*\n";
-            $text .= "   👥 {$task->group->name}{$deadline}\n\n";
+
+            $text = "📋 *{$task->title}*\n"
+                  . "👥 {$task->group->name}{$deadline}";
+
+            $keyboard = InlineKeyboardMarkup::make()
+                ->addRow(InlineKeyboardButton::make(
+                    '🔍 Batafsil',
+                    callback_data: "task_detail_{$task->id}"
+                ));
+
+            $bot->sendMessage($text, parse_mode: 'Markdown', reply_markup: $keyboard);
+        }
+    }
+
+    public function taskDetail(Nutgram $bot): void
+    {
+        $student = $this->getStudent($bot);
+        if (!$student) return;
+
+        $callbackData = $bot->callbackQuery()?->data ?? '';
+        $taskId = (int) str_replace('task_detail_', '', $callbackData);
+
+        $submission = TaskSubmission::where('student_id', $student->id)
+            ->where('task_id', $taskId)
+            ->with('task.group')
+            ->first();
+
+        if (!$submission) {
+            $bot->answerCallbackQuery(text: 'Vazifa topilmadi');
+            return;
         }
 
+        $task = $submission->task;
+        $deadline = $task->due_date
+            ? Carbon::parse($task->due_date)->format('d.m.Y H:i')
+            : "Belgilanmagan";
+
+        $type = match($task->type) {
+            'in_lesson'          => "Dars ichida so'raladigan",
+            'extra_text'         => 'Extra matn (rasm yuborish)',
+            'video_conversation' => 'Video suhbat',
+            'vocabulary'         => "Lug'at imtihoni",
+            default              => $task->type,
+        };
+
+        $status = match($submission->status) {
+            'pending'   => '⏳ Kutilmoqda',
+            'submitted' => '📤 Topshirilgan',
+            'graded'    => "✅ Baholangan ({$submission->score} ball)",
+            'missed'    => '❌ O\'tkazib yuborilgan',
+            default     => $submission->status,
+        };
+
+        // Strip HTML from description for Telegram
+        $description = $task->description
+            ? "\n\n📝 " . strip_tags(html_entity_decode($task->description))
+            : '';
+
+        $text = "📋 *{$task->title}*\n\n"
+              . "👥 Guruh: {$task->group->name}\n"
+              . "📌 Turi: {$type}\n"
+              . "⏰ Muddat: {$deadline}\n"
+              . "📊 Holat: {$status}"
+              . $description;
+
+        $bot->answerCallbackQuery();
         $bot->sendMessage($text, parse_mode: 'Markdown');
     }
 

@@ -39,7 +39,17 @@ class TaskResource extends Resource
                 )
                 ->nullable(),
             Forms\Components\TextInput::make('title')->label('Sarlavha')->required(),
-            Forms\Components\Textarea::make('description')->label('Tavsif'),
+            Forms\Components\RichEditor::make('description')
+                ->label('Tavsif')
+                ->toolbarButtons(['bold', 'italic', 'underline', 'bulletList', 'orderedList', 'link', 'h2', 'h3'])
+                ->columnSpanFull(),
+            Forms\Components\FileUpload::make('attachment_path')
+                ->label('Rasm / fayl')
+                ->image()
+                ->disk('public')
+                ->directory('task-attachments')
+                ->imagePreviewHeight('150')
+                ->columnSpanFull(),
             Forms\Components\Select::make('type')
                 ->label('Vazifa turi')
                 ->options([

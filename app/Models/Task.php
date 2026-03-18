@@ -9,6 +9,7 @@ class Task extends Model
     protected $fillable = [
         'group_id', 'lesson_id', 'title', 'description',
         'type', 'due_date', 'max_score', 'is_active', 'created_by',
+        'attachment_path',
     ];
 
     protected $casts = [

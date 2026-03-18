@@ -12,6 +12,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Widgets;
 use App\Filament\Widgets\StatsOverview;
+use App\Filament\Widgets\TodayLessonsWidget;
 use App\Filament\Widgets\UpcomingPayments;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -38,6 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 StatsOverview::class,
+                TodayLessonsWidget::class,
                 UpcomingPayments::class,
             ])
             ->middleware([
