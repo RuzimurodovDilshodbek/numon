@@ -13,7 +13,12 @@ Route::get('/', function () {
 Route::post('/telegram/webhook', function (Nutgram $bot) {
     $bot->setRunningMode(Webhook::class);
     app(TelegramBotKernel::class)->register($bot);
-    $bot->run();
+    try {
+        $bot->run();
+    } catch (\Throwable) {
+        // Telegram webhook always returns 200
+    }
+    return response('', 200);
 })->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
 
 Route::get('/vocab-exam/{token}', [VocabExamController::class, 'show'])->name('vocab-exam.show');
