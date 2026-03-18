@@ -73,7 +73,7 @@ class StudentsRelationManager extends RelationManager
                                 User::role('student')
                                     ->whereDoesntHave('groups', fn ($q) =>
                                         $q->where('group_id', $this->getOwnerRecord()->id)
-                                          ->wherePivot('is_active', true)
+                                          ->where('group_students.is_active', true)
                                     )
                                     ->pluck('name', 'id')
                             )
