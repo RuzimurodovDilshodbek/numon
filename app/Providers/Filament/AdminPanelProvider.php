@@ -11,6 +11,7 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Widgets;
+use App\Filament\Widgets\LessonStudentsWidget;
 use App\Filament\Widgets\StatsOverview;
 use App\Filament\Widgets\TodayLessonsWidget;
 use App\Filament\Widgets\UpcomingPayments;
@@ -41,6 +42,7 @@ class AdminPanelProvider extends PanelProvider
                 StatsOverview::class,
                 TodayLessonsWidget::class,
                 UpcomingPayments::class,
+                LessonStudentsWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
