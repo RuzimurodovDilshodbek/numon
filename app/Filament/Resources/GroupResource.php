@@ -71,10 +71,12 @@ class GroupResource extends Resource
                         Forms\Components\TimePicker::make('start_time')
                             ->label('Boshlanish')
                             ->seconds(false)
+                            ->native(false)
                             ->required(),
                         Forms\Components\TimePicker::make('end_time')
                             ->label('Tugash')
                             ->seconds(false)
+                            ->native(false)
                             ->required(),
                         Forms\Components\Toggle::make('is_active')->label('Faol')->default(true),
                     ])
